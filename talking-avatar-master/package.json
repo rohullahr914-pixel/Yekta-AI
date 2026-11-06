@@ -1,0 +1,77 @@
+{
+  "name": "@interviewflowai/talking-avatar",
+  "version": "0.3.0",
+  "description": "Free, open-source (MIT) talking avatars for the browser: real-time lip sync for 3D avatars from any audio (TTS, voice agents, microphone), with built-in male and female avatars. No server, no API key.",
+  "license": "MIT",
+  "author": "InterviewFlowAI",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interviewflowai/talking-avatar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/interviewflowai/talking-avatar/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./viseme-model.bin": "./dist/viseme-model.bin",
+    "./avatars/*": "./dist/avatars/*"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "lipsync",
+    "lip-sync",
+    "viseme",
+    "avatar",
+    "three",
+    "webaudio",
+    "tts",
+    "talking-head",
+    "webrtc",
+    "voice-agent",
+    "open-source",
+    "3d-avatar",
+    "rocketbox"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && vite build && tsc -p tsconfig.build.json && cp model/viseme-model.bin dist/ && cp -R avatars dist/",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "three": ">=0.160.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.3.11",
+    "@types/three": "^0.186.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.186.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.9"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://talking-avatar.dev"
+}

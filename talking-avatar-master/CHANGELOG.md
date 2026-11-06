@@ -1,0 +1,83 @@
+# Changelog
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
+[Semantic Versioning](https://semver.org/).
+
+## [0.3.0] - 2026-11-02
+
+This package is now only the free, open-source 3D lip sync.
+
+### Added
+
+- Built-in 3D avatars: a female and a male avatar (Microsoft Rocketbox, MIT) ship in the package. `avatarUrl` is now
+  optional and defaults to the female one; `AVATARS.female` and `AVATARS.male` are their URLs (jsDelivr, pinned to
+  the installed version), and `@interviewflowai/talking-avatar/avatars/*.glb` serves them for self-hosting.
+
+### Removed
+
+- **Breaking:** the Realistic Avatars clients (`/server`: `LiveAvatar`, `createAgentLink`, `listAgentLinks`,
+  `deleteAgentLink`; `/live`: `LiveAvatarView`) moved to their own package,
+  [`@talkingavatar/sdk`](https://www.npmjs.com/package/@talkingavatar/sdk) (source:
+  [TalkingAvatar/sdk](https://github.com/TalkingAvatar/sdk)), with the same API. Install it and change
+  `@interviewflowai/talking-avatar/server` and `/live` to `@talkingavatar/sdk/server` and `/live`.
+
+### Changed
+
+- `three` is a required peer dependency again: everything in the package needs it.
+
+## [0.2.0] - 2026-10-26
+
+### Added
+
+- Voice agent links: `createAgentLink`, `listAgentLinks` and `deleteAgentLink` (`@interviewflowai/talking-avatar/server`)
+  make, list and delete the links to your private voice agents with your API key, each with an expiry and an optional
+  number of calls. Failed requests throw `TalkingAvatarApiError`.
+
+### Changed
+
+- Close code 4002 now also ends a running session, when the account runs out of credits or reaches its monthly
+  spending limit (checked every 30 seconds).
+
+## [0.1.3] - 2026-10-09
+
+### Added
+
+- Realistic Avatars: photorealistic talking avatars streamed to your page, billed per minute.
+  `LiveAvatar` (`@interviewflowai/talking-avatar/server`) runs the session on your server: TTS audio in any chunking
+  or base64, barge-in with how much was heard, speech events, and one route for the page (`handleView`), or
+  publishing into your LiveKit room. `LiveAvatarView` (`@interviewflowai/talking-avatar/live`) plays it in the page
+  over WebRTC and reconnects by itself.
+
+### Changed
+
+- Licensed under MIT (was PolyForm Noncommercial 1.0.0): free for any use, commercial included.
+- `three` is now an optional peer dependency: only `TalkingAvatar` needs it.
+
+## [0.1.1] - 2026-10-02
+
+### Changed
+
+- Retrained viseme model: the "th" in *think* and *three* now shows the TH mouth shape (76% of test frames, up
+  from 11%); overall shape accuracy 82.3% (was 81.7%).
+
+### Fixed
+
+- A p/b/m at the start of a word now closes the lips; it was dropped when the model heard it for only one frame.
+- The first viseme event could be timed slightly before the audio started.
+
+## [0.1.0] - 2026-10-02
+
+### Added
+
+- Licensed under the PolyForm Noncommercial License 1.0.0: free for personal and non-commercial use; commercial
+  licences from InterviewFlowAI.
+- `TalkingAvatar`: loads a `.glb` avatar and lip syncs it to live audio (`attachStream`) or clips (`speak`), playing
+  the audio itself.
+- In-browser audio-to-viseme model (~260k parameters, 1 MB), trained on LibriTTS-R.
+- JALI-style coarticulation from viseme events to mouth weights.
+- Natural blinks and brows that follow speaking, listening and thinking; `setStatus("listening" | "thinking")`.
+- `morphTargets` option for avatars with other morph names; avatars named `h_expressions.*_h` are mapped
+  automatically.
+- `TalkingAvatarView` React component (`@interviewflowai/talking-avatar/react`).
+- Demo app (`npm run demo`).
